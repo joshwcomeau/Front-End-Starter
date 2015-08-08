@@ -1,3 +1,4 @@
 # Starter file for app.
-test_thing = 'HOHOHOf'
-console.log "#{test_thing}, how are you?"
+util = require('./util_example')
+
+console.log util.say_hi('Josh')

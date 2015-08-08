@@ -1,11 +1,10 @@
 var gulp          = require('gulp'),
     path          = require('path'),
     less          = require('gulp-less'),
-    coffee        = require('gulp-coffee'),
     autoprefixer  = require('gulp-autoprefixer'),
-    jshint        = require('gulp-jshint'),
     gutil         = require('gulp-util'),
     concat        = require('gulp-concat'),
+    coffeeify     = require('gulp-coffeeify'),
     webserver     = require('gulp-webserver');
 
 ////// Currently unused
@@ -36,11 +35,8 @@ gulp.task('styles', function () {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src([SCRIPTS_PATH])
-    .pipe( coffee({ bare: true })).on('error', gutil.log)
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    // .on('error', errorLog)
+  return gulp.src('./assets/scripts/app.coffee')
+    .pipe(coffeeify())
     .pipe(gulp.dest('public/assets/scripts'));
 });
 
