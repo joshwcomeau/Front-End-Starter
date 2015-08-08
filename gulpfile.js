@@ -5,17 +5,17 @@ var gulp          = require('gulp'),
     autoprefixer  = require('gulp-autoprefixer'),
     jshint        = require('gulp-jshint'),
     gutil         = require('gulp-util'),
-    uglify        = require('gulp-uglify'),
-    imagemin      = require('gulp-imagemin'),
-    rename        = require('gulp-rename'),
     concat        = require('gulp-concat'),
-    notify        = require('gulp-notify'),
-    cache         = require('gulp-cache'),
+    webserver     = require('gulp-webserver');
 
-    minifycss     = require('gulp-minify-css'),
-    
-    livereload    = require('gulp-livereload'),
-    sourcemaps    = require('gulp-sourcemaps');
+////// Currently unused
+// var uglify        = require('gulp-uglify'),
+//     imagemin      = require('gulp-imagemin'),
+//     rename        = require('gulp-rename'),
+//     cache         = require('gulp-cache'),
+//     minifycss     = require('gulp-minify-css'),
+//     livereload    = require('gulp-livereload'),
+//     sourcemaps    = require('gulp-sourcemaps');
 
 function errorLog (error) {
   console.error(error.message); 
@@ -41,8 +41,17 @@ gulp.task('scripts', function() {
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     // .on('error', errorLog)
-    .pipe(gulp.dest('public/assets/scripts'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(gulp.dest('public/assets/scripts'));
+});
+
+gulp.task('webserver', function() {
+  gulp.src('./')
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: false,
+      open: true,
+      port: 5678
+    }));
 });
 
 gulp.task('watch', ['styles', 'scripts'], function() {
@@ -51,5 +60,5 @@ gulp.task('watch', ['styles', 'scripts'], function() {
 });
 
 gulp.task('default', function() {
-    gulp.start('styles', 'scripts', 'watch');
+    gulp.start('styles', 'scripts', 'watch', 'webserver');
 });
